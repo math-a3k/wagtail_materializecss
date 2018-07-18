@@ -1,0 +1,1 @@
+# wagtail_materializecss_tags
