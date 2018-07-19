@@ -1,0 +1,45 @@
+{% extends "wagtail_materializecss/base.html" %}
+
+{% load static wagtailcore_tags wagtailimages_tags wagtail_materializecss_tags %}
+
+{% block body_class %}template-bloggerhomepage{% endblock %}
+
+{% block before_container %}
+    <div class="row">
+        {% image page.background_image original as page_image %}
+{#        <div style="height: 200px; width: 100%; background-image: url('{{ page_image.url }}')"></div>#}
+        <div class='hero-image' style="background-image: url('{{ page_image.url }}')"></div>
+        <!--<div style="height: 300px; background-color: #444444;">-->
+            <!--<img class="responsive-img materialboxed" style='height: 300px;display: block; margin-left: auto; margin-right: auto;' src="{{ page_image.url }}" />-->
+        <!--</div>-->
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 m4 right" style="margin-top: 1rem;">
+            {% image page.user_image fill-200x200 class="responsive-img circle center-object" %}
+            <h3 class="{{ page.color }}-text">{{ page.author }}</h3>
+        </div>
+        <div class="col s12 m8">
+            <h1 class="{{ page.color }}-text scrollspy">Introduction</h1>
+            {{ page.intro|richtext }}
+        </div>
+    </div>
+
+    <div class="row">
+        {% for card in page.cards %}
+        {% include_block card %}
+        {% endfor %}
+    </div>
+    <div class="row">
+        <h5>Posts</h5>
+        <div class="divider"></div>
+        {% for post in blogpages %}
+            <div class="col s12 m6 l4">
+                {% make_link None "Go to Post" post.specific as post_link %}
+                {% make_card post.specific.title post.specific.description post_link size='small' %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
