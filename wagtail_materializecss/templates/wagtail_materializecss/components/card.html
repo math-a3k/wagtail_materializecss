@@ -13,8 +13,8 @@
     <div class="card-stacked">
     {% endif %}
         <div class="card-content{% if value.text_color %} {{ value.text_color }}-text{% endif %}">
-            {% if value.title %}<span class="card-title flow-text">{{ value.title }}</span>{% endif %}
-            {% if value.content %}<div class="card-subcontent flow-text">{% include_block value.content %}</div>{% endif %}
+            {% if value.title %}<span class="card-title">{{ value.title }}</span>{% endif %}
+            {% if value.content %}<div class="card-subcontent">{% include_block value.content %}</div>{% endif %}
         </div>
         {% if value.actions %}
         <div class="card-action">
