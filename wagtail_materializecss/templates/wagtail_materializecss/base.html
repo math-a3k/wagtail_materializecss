@@ -25,6 +25,9 @@
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+        <!--Include some dynamic css tailored to django-->
+        {% include_dynamic_css %}
+
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}

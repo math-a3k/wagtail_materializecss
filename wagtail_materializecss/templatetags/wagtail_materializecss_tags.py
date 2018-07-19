@@ -28,6 +28,13 @@ def get_page_context(context):
             'site_name': site_name, 'site_url': site_url}
 
 
+@register.inclusion_tag('wagtail_materializecss/dynamic_css.html', takes_context=True)
+def include_dynamic_css(context, *lines):
+    ctx = get_page_context(context)
+    ctx['lines'] = lines
+    return ctx
+
+
 @register.inclusion_tag('wagtail_materializecss/components/navbar.html', takes_context=True)
 def include_navbar(context, hide_links=False):
     ctx = get_page_context(context)

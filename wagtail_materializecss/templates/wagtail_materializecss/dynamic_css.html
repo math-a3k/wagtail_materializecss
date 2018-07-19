@@ -1,0 +1,11 @@
+<style>
+{% if page.color %}
+.table-of-contents a.active {
+    border-left: 2px solid {{ page.color }};
+  }
+{% endif %}
+
+{% for line in lines %}
+{{ line }}
+{% endfor %}
+</style>
