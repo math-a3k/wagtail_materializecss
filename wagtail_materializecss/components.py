@@ -75,7 +75,10 @@ class Breadcrumb(blocks.ListBlock):
     """Breadcrumb that show the page hierarchy. This breadcrumb should be a list of links that point back to the
     root page.
     """
-    links = LinkBlock()
+    def __init__(self, child_block=None, **kwargs):
+        if child_block is None:
+            child_block = LinkBlock()
+        super().__init__(child_block, **kwargs)
 
     class Meta:
         label = _('Breadcrumb')
