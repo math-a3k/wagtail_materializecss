@@ -1,0 +1,21 @@
+{% load wagtailcore_tags %}
+<nav class="{{ value.color }}" role="navigation">
+    <div class="nav-wrapper">
+        <a id="logo-container"{% if value.title_pos == "left" %} style='margin-left: 1.5em;'{% endif %} class="brand-logo {{ value.title_pos }}" href="{{ site.root_url }}">{{ site.site_name }}</a>
+        {% if not hide_links %}
+        <ul class="right hide-on-med-and-down">
+            {% for link in value.nav_links %}
+            <li style="height: 64px;">{% include_block link %}</li>
+            {% endfor %}
+        </ul>
+        <ul id="nav-mobile" class="sidenav">
+            <li><h4 class="{{ value.color }}-text center">{% if value.title %}{{ value.title }}{% else %}{{ page.title }}{% endif %}</h4></li>
+            <li><div class="divider"></div></li>
+            {% for link in value.sidenav_links %}
+            <li>{% include_block link %}</li>
+            {% endfor %}
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        {% endif %}
+    </div>
+</nav>

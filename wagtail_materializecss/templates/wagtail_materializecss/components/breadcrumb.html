@@ -1,0 +1,6 @@
+{% load wagtailcore_tags %}
+<div class="col s12">
+{% for link in value.links %}
+    {% include_block link with classname="breadcrumb" %}
+{% endfor %}
+</div>

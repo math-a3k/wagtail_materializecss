@@ -1,0 +1,10 @@
+{% load wagtailcore_tags wagtailimages_tags%}
+<li class="collection-item avatar">
+    {% if value.image %}
+    {% image value.image original as avatar_img %}
+    <img src="{{ avatar_img.url }}" alt="" class="circle">
+    {% endif %}
+    {% if value.title %}<span class="title">{% include_block value.title %}</span>{% endif %}
+    {% if value.content %}<p>{% include_block value.content %}</p>{% endif %}
+    {% if value.secondary_icon %}<i class="material-icons secondary-content">{{ value.secondary_icon }}</i>{% endif %}
+</li>

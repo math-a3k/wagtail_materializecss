@@ -1,0 +1,6 @@
+{% load wagtailcore_tags
+<div class="{% if value.small %}s{{ value.small }}{% endif %}{% if value.medium %}s{{ value.medium }}{% endif %}{% if value.large %}s{{ value.large }}{% endif %}{% if value.xl %}s{{ value.xl }}{% endif %}">
+{% for child in value.content %}
+    {% include_block child %}
+{% endfor %}
+</div>

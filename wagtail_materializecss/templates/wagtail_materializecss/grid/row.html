@@ -1,0 +1,5 @@
+<div class="row{% if classname %}{{ classname }}{% endif %}" {% if style %}style="{{ style }}"{% endif %}>
+{% for child in value%}
+    {% include_block child %}
+{% endfor %}
+</div>

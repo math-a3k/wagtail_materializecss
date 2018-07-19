@@ -1,0 +1,71 @@
+{% load static wagtailuserbar wagtailadmin_tags wagtail_materializecss_tags %}
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="" />
+
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}"  media="screen,projection"/>
+        <!--Import custom materializecss CSS helpers-->
+        <link rel="stylesheet" type="text/css" href="{% static 'wagtail_materializecss/css/custom.css' %}">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+        {% block navbar %}
+            {% include_navbar hide_links=True %}
+        {% endblock %}
+
+        {% block before_container %}{% endblock %}
+
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+
+        {% block footer %}
+            {% if page.show_footer %}
+                {% include_footer %}
+            {% endif %}
+        {% endblock %}
+
+        <!--JavaScript at end of body for optimized loading-->
+        <script type="text/javascript" src="{% static 'materialize/js/materialize.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'wagtail_materializecss/js/custom.js' %}"></script>
+
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+
+        <script type="text/javascript">
+            // Check each materializecss card to see if the content overflows. Fix the overflow with a reveal.
+            check_card_reveal();
+
+            // Check for scrollspy headers and add them to the table of contents
+            check_table_of_contents();
+
+            // Automatically initialize materializecss components
+            M.AutoInit();
+        </script>
+    </body>
+</html>

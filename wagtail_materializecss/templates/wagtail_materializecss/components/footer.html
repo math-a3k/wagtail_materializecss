@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<footer class="page-footer {{ value.color }}">
+    <div class="container">
+    {% for items in value.footer %}
+        {% include_block items %}
+    {% endfor %}
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            {% for items in value.footer_copyright %}
+                {% include_block items %}
+            {% endfor %}
+        </div>
+    </div>
+</footer>

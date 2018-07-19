@@ -1,0 +1,17 @@
+{% if value.circular%}
+<div class="preloader-wrapper active{% if classname %} {{ classname }}{% endif %}"{% if style %} style="{{ style }}"{% endif %}>
+    <div class="spinner-layer {% if value.color %}spinner-{{ value.color }}-only{% else %}spinner-blue{% endif %}">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div><div class="gap-patch">
+            <div class="circle"></div>
+        </div><div class="circle-clipper right">
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="progress{% if classname %} {{ classname }}{% endif %}"{% if style %} style="{{ style }}"{% endif %}>
+      <div class="{% if value.determinate or determinate %}determinate{% else %}indeterminate{% endif %}"></div>
+</div>
+{% endif %}
