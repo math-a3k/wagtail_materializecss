@@ -1,7 +1,7 @@
 {% load wagtailcore_tags %}
 <nav class="{{ value.color }}" role="navigation">
     <div class="nav-wrapper">
-        <a id="logo-container"{% if value.title_pos == "left" %} style='margin-left: 1.5em;'{% endif %} class="brand-logo {{ value.title_pos }}" href="{{ site.root_url }}">{{ site.site_name }}</a>
+        <a id="logo-container"{% if value.title_pos == "left" %} style='margin-left: 1.5em;'{% endif %} class="brand-logo {{ value.title_pos }}" href="{{ site_url }}">{{ site_name }}</a>
         {% if not hide_links %}
         <ul class="right hide-on-med-and-down">
             {% for link in value.nav_links %}

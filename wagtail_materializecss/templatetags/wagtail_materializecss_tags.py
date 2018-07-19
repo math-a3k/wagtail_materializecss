@@ -9,61 +9,57 @@ from ..components import LinkBlock, Preloader
 register = template.Library()
 
 
-@register.inclusion_tag('wagtail_materializecss/components/navbar.html', takes_context=True)
-def include_navbar(context, hide_links=False):
+def get_page_context(context):
+    """Return the site name and url."""
     self = context.get('self', None)
     page = context.get('page', self)
     request = context.get('request', None)
     try:
         site = page.get_site()
+        site_name = site.site_name
+        site_url = site.root_url
     except:
-        site = None
-    return {'value': page, 'page': page, 'self': self, 'request': request, 'site': site, 'hide_links': hide_links}
+        site_name = None
+        site_url = None
+    if not site_name:
+        site_name = page.title
+        site_url = page.url
+    return {'value': page, 'page': page, 'self': self, 'request': request,
+            'site_name': site_name, 'site_url': site_url}
+
+
+@register.inclusion_tag('wagtail_materializecss/components/navbar.html', takes_context=True)
+def include_navbar(context, hide_links=False):
+    ctx = get_page_context(context)
+    ctx['hide_links'] = hide_links
+    return ctx
 
 
 @register.inclusion_tag('wagtail_materializecss/components/footer.html', takes_context=True)
 def include_footer(context):
-    self = context.get('self', None)
-    page = context.get('page', self)
-    request = context.get('request', None)
-    try:
-        site = page.get_site()
-    except:
-        site = None
-    return {'value': page, 'page': page, 'self': self, 'request': request, 'site': site}
+    ctx = get_page_context(context)
+    return ctx
 
 
 @register.inclusion_tag('wagtail_materializecss/javascript/scrollspy_toc.html', takes_context=True)
 def include_table_of_contents(context):
     """Create a table of contents using scrollspy. This depends on header blocks with class="scrollspy"."""
-    self = context.get('self', None)
-    page = context.get('page', self)
-    request = context.get('request', None)
-    try:
-        site = page.get_site()
-    except:
-        site = None
-    return {'value': page, 'page': page, 'self': self, 'request': request, 'site': site}
+    ctx = get_page_context(context)
+    return ctx
 
 
 @register.inclusion_tag('wagtail_materializecss/components/preloader.html', takes_context=True)
 def make_preloader(context, circular=True, determinate=False, color=''):
-    self = context.get('self', None)
-    page = context.get('page', self)
-    request = context.get('request', None)
-    try:
-        site = page.get_site()
-    except:
-        site = None
+    ctx = get_page_context(context)
     preloader = BoundBlock(Preloader(), {'circular': circular, 'determinate': determinate, 'color': color,
-                                         'page': page, 'request': request, 'site': site})
-    return {'value': preloader, 'page': page, 'self': self, 'request': request, 'site': site}
+                                         'page': ctx['page'], 'request': ctx['request'], 'site': ctx['site']})
+    ctx['value'] = preloader
+    return ctx
 
 
 @register.inclusion_tag('wagtail_materializecss/components/card.html')
 def make_card(title=None, content=None, actions=None,
               size=None, horizontal=False, image=None, background_color=None, text_color=None, classname=None):
-    print(title, content)
     # Check the given actions
     if actions is not None:
         try:
