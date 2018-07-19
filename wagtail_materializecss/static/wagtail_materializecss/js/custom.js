@@ -14,7 +14,6 @@ function check_card_reveal(){
 
         // Check the card contents
         if (has_overflow(content)){
-            console.log('overflow');
             // Create the card reveal content and add it to the card
             var reveal_content = document.createElement('div');
             reveal_content.className = 'card-reveal';
