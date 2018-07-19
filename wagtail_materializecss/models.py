@@ -9,16 +9,69 @@ from .grid import Row, Col, h1, h2, h3, h4, h5, h6, make_row_col_blocks
 from .components import LinkBlock, Badge, Button, FAB, Breadcrumb, Card, Collection, Icon, Preloader
 
 
-__all__ = ['HEADINGS', 'FOOTER_BLOCKS', 'Navbar', 'Footer', 'MaterializePage']
+__all__ = ['get_headings', 'get_components', 'get_footer_blocks', 'Navbar', 'Footer', 'MaterializePage']
 
 
-HEADINGS = [('h1', h1()), ('h2', h2()), ('h3', h3()), ('h4', h4()), ('h5', h5()), ('h6', h6())]
+def get_headings(exclude=None):
+    """Return all of the heading block options for a StreamField.
+
+    Args:
+        exclude (list/str): List of string/block names to exclude (case insensitive).
+
+    Returns:
+        blocks (list): List of tuples containing (block type name, block) that can be given to a StreamField
+    """
+    base = [('h1', h1()), ('h2', h2()), ('h3', h3()), ('h4', h4()), ('h5', h5()), ('h6', h6())]
+
+    if exclude is None:
+        return base
+    elif not isinstance(exclude, (list, tuple)):
+        exclude = [exclude]
+    exclude = [str(block).lower() for block in exclude]
+    return [block for block in base if str(block[0]).lower() not in exclude and str(block[1]).lower() not in exclude]
 
 
-FOOTER_BLOCKS = [('h1', h1()), ('h2', h2()), ('h3', h3()), ('h4', h4()), ('h5', h5()), ('h6', h6()),
-                 ('Link', LinkBlock()), ('Badge', Badge()), ('Button', Button()), ('FAB', FAB()),
-                 ('Collection', Collection()), ('icon', Icon())]
-# FOOTER_BLOCKS.extend(make_row_col_blocks(FOOTER_BLOCKS))
+def get_components(exclude=None):
+    """Return all of the component block options for a StreamField.
+
+    Args:
+        exclude (list/str): List of string/block names to exclude (case insensitive).
+
+    Returns:
+        blocks (list): List of tuples containing (block type name, block) that can be given to a StreamField
+    """
+    base = [('Link', LinkBlock()), ('Badge', Badge()), ('Button', Button()), ('FAB', FAB()),
+            ('Breadcrumb', Breadcrumb()), ('Card', Card()), ('Collection', Collection()), ('Icon', Icon()),
+            ('Preloader', Preloader())]
+
+    if exclude is None:
+        return base
+    elif not isinstance(exclude, (list, tuple)):
+        exclude = [exclude]
+    exclude = [str(block).lower() for block in exclude]
+    return [block for block in base if str(block[0]).lower() not in exclude and str(block[1]).lower() not in exclude]
+
+
+def get_footer_blocks(exclude=None):
+    """Return all of the block options for a StreamField that may be in a footer. A footer can take any kind of block.
+    This function just returns a list of most common ones.
+
+    Args:
+        exclude (list/str): List of string/block names to exclude (case insensitive).
+
+    Returns:
+        blocks (list): List of tuples containing (block type name, block) that can be given to a StreamField
+    """
+    base = [('h1', h1()), ('h2', h2()), ('h3', h3()), ('h4', h4()), ('h5', h5()), ('h6', h6()),
+            ('Link', LinkBlock()), ('Badge', Badge()), ('Button', Button()), ('FAB', FAB()),
+            ('Collection', Collection()), ('icon', Icon())]
+
+    if exclude is None:
+        return base
+    elif not isinstance(exclude, (list, tuple)):
+        exclude = [exclude]
+    exclude = [str(block).lower() for block in exclude]
+    return [block for block in base if str(block[0]).lower() not in exclude and str(block[1]).lower() not in exclude]
 
 
 class Navbar(models.Model):
@@ -92,8 +145,8 @@ class Footer(models.Model):
         abstract = True
 
     show_footer = models.BooleanField(default=False)
-    footer_items = StreamField(FOOTER_BLOCKS, blank=True)
-    footer_copyright = StreamField(FOOTER_BLOCKS, blank=True)
+    footer_items = StreamField(get_footer_blocks(), blank=True)
+    footer_copyright = StreamField(get_footer_blocks(), blank=True)
 
     content_panels = [
         MultiFieldPanel([
