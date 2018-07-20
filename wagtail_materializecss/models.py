@@ -62,7 +62,7 @@ def get_footer_blocks(exclude=None):
     Returns:
         blocks (list): List of tuples containing (block type name, block) that can be given to a StreamField
     """
-    base = [('h1', h1()), ('h2', h2()), ('h3', h3()), ('h4', h4()), ('h5', h5()), ('h6', h6()),
+    base = [*get_headings(),
             ('Link', LinkBlock()), ('Badge', Badge()), ('Button', Button()), ('FAB', FAB()),
             ('Collection', Collection()), ('icon', Icon())]
 
@@ -113,12 +113,19 @@ class Navbar(models.Model):
             return self.title_position or 'center'
 
     def color(self):
-        if self.navbar_color:
-            return self.navbar_color
-        try:
-            return self.get_parent().specific.color()
-        except:
-            return self.navbar_color
+        color = self.navbar_color
+        if not color:
+            try:
+                color = self.get_parent().specific.color()
+            except:
+                color = self.navbar_color
+
+        # Make the color be the last element for -text (Ex: 'cyan lighten-4' changed to 'lighten-4 cyan' for cyan-text
+        cs = color.split(' ')
+        if len(cs) >= 2:
+            color = ' '.join((*cs[1:], cs[0]))
+
+        return color
 
     def nav_links(self):
         if self.navbar_links:
