@@ -33,10 +33,10 @@ if __name__ == "__main__":
 
     setup(
         name="wagtail_materializecss",
-        version="0.0.2",
+        version="0.0.3",
         description="Wagtail CMS materialize css components and javascript items as blocks.",
-        url="https://github.com/justengel/wagtail_materializecss",
-        download_url="https://github.com/justengel/wagtail_materializecss/archive/v0.0.2.tar.gz",
+        url="https://github.com/justengel-django/wagtail_materializecss",
+        download_url="https://github.com/justengel-django/wagtail_materializecss/archive/v0.0.3.tar.gz",
 
         author="Justin Engel",
         author_email="jtengel08@gmail.com",
