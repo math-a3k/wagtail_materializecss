@@ -29,7 +29,7 @@
 }
 
 .center-object{
-    display: block;
+    display: table;
     margin-left: auto;
     margin-right: auto;
 }
