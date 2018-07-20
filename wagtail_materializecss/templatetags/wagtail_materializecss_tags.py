@@ -48,7 +48,7 @@ def include_footer(context):
     return ctx
 
 
-@register.inclusion_tag('wagtail_materializecss/javascript/scrollspy_toc.html', takes_context=True)
+@register.inclusion_tag('wagtail_materializecss/javascript/scrollspy.html', takes_context=True)
 def include_table_of_contents(context):
     """Create a table of contents using scrollspy. This depends on header blocks with class="scrollspy"."""
     ctx = get_page_context(context)

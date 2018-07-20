@@ -1,6 +1,0 @@
-{% load wagtailcore_tags %}
-<div id='{{ value.title|lower }}' class="scrollspy_div_block scrollspy{% if classname %} {{ classname }}{% endif %}">
-    {% for content in value.content %}
-        {% include_block content %}
-    {% endfor %}
-</div>
