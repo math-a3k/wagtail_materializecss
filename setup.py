@@ -41,7 +41,7 @@ if __name__ == "__main__":
         author="Justin Engel",
         author_email="jtengel08@gmail.com",
 
-        license="",
+        license="MIT License",
 
         platforms="any",
         classifiers=['Environment :: Web Environment',
