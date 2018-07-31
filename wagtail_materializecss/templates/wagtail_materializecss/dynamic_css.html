@@ -2,7 +2,11 @@
 {% if page.color %}
 .table-of-contents a.active {
     border-left: 2px solid {{ page.color }};
-  }
+}
+{% endif %}
+
+{% if page.stylesheet %}
+{{ page.stylesheet }}
 {% endif %}
 
 {% for line in lines %}
