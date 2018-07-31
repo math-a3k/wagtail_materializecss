@@ -15,8 +15,8 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
-from wagtail_materializecss.components import LinkBlock, Card, Collection
-from wagtail_materializecss.models import MaterializePage, get_headings, get_components
+from wagtail_materializecss.blocks import MaterializePage, get_headings, get_components, \
+    LinkBlock, Card, Collection, Carousel
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -81,6 +81,7 @@ class BlogPage(MaterializePage):
         ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
         ('media', MediaChooserBlock(icon='media')),
         ('collection', Collection()),
+        ('gallery', Carousel()),
         *get_components(),
     ])
 

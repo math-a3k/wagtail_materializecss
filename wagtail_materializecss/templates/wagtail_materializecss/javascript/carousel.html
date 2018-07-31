@@ -1,0 +1,6 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="carousel carousel-slider center no-autoinit{% if classname %} {{ classname }}{% endif %}"{% if style %} style="{{ style }}"{% endif %}>
+{% for img in value %}
+    {% image img original class="carousel-item responsive-img" %}
+{% endfor %}
+</div>
