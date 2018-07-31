@@ -64,6 +64,12 @@ def make_preloader(context, circular=True, determinate=False, color=''):
     return ctx
 
 
+@register.inclusion_tag('wagtail_materializecss/javascript/parallax.html')
+def make_parallax(image):
+    context = {'value': {'image': image}}
+    return context
+
+
 @register.inclusion_tag('wagtail_materializecss/components/card.html')
 def make_card(title=None, content=None, actions=None,
               size=None, horizontal=False, image=None, background_color=None, text_color=None, classname=None):

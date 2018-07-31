@@ -1,0 +1,33 @@
+{% extends "wagtail_materializecss/base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags wagtail_materializecss_tags %}
+
+{% block body_class %}template-blogpage{% endblock %}
+
+{% block before_container %}
+    {% make_parallax page.parallax1 %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m9 l9">
+                <h2 class="header {{ page.color }}-text">{{ page.title }}</h2>
+                <p class="caption">{{ page.author}} - {{ page.date }}</p>
+
+                {% for block in page.body %}
+                    {% if block.block_type == 'heading' %}
+                        <h3>{% include_block block.value %}</h3>
+                        <div class="divider"></div>
+                    {% else %}
+                        {% include_block block %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block after_container %}
+    {% make_parallax page.parallax2 %}
+{% endblock %}

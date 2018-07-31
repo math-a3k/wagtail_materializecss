@@ -46,6 +46,8 @@
             {% block content %}{% endblock %}
         </div>
 
+        {% block after_container %}{% endblock %}
+
         {% block footer %}
             {% if page.show_footer %}
                 {% include_footer %}

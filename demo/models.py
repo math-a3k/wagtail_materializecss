@@ -17,6 +17,7 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from wagtail_materializecss.blocks import MaterializePage, get_headings, get_components, \
     LinkBlock, Card, Collection, Carousel
+from wagtail_materializecss.javascript import Parallax
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -63,7 +64,7 @@ class BloggerHomePage(MaterializePage):
         FieldPanel('intro', classname="full"),
     ]
 
-    subpage_types = ['demo.BlogPage']
+    subpage_types = ['demo.BlogPage', 'demo.ParallaxPage']
 
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
@@ -90,6 +91,43 @@ class BlogPage(MaterializePage):
             FieldPanel('date'),
             FieldPanel('description', classname='full'),
             ], heading="Document Fields",),
+        StreamFieldPanel('body'),
+    ]
+
+    parent_page_types = ['demo.BloggerHomePage']
+
+    @property
+    def author(self):
+        return self.get_parent().specific.author
+
+    @property
+    def user_image(self):
+        return self.get_parent().specific.user_image
+
+
+class ParallaxPage(MaterializePage):
+    date = models.DateField("Post date", default=timezone.now)
+    description = RichTextField(blank=True)
+    parallax1 = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, related_name='+')
+    parallax2 = models.ForeignKey('wagtailimages.Image', on_delete=models.SET_NULL, null=True, related_name='+')
+    body = StreamField([
+        *get_headings(exclude=['h1', 'h2']),
+        ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
+        ('media', MediaChooserBlock(icon='media')),
+        ('collection', Collection()),
+        ('gallery', Carousel()),
+        *get_components(),
+    ])
+
+    content_panels = MaterializePage.content_panels + [
+        MultiFieldPanel([
+            FieldPanel('date'),
+            FieldPanel('description', classname='full'),
+            ], heading="Document Fields",),
+        MultiFieldPanel([
+            ImageChooserPanel('parallax1'),
+            ImageChooserPanel('parallax2'),
+            ], heading="Parallax",),
         StreamFieldPanel('body'),
     ]
 

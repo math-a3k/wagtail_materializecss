@@ -1,0 +1,5 @@
+{% load wagtailimages_tags %}
+<div class="parallax-container">
+    {% image value.image original as value_image %}
+    <div class="parallax"><img src="{{ value_image.url }}"></div>
+</div>
