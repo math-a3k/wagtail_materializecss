@@ -64,7 +64,7 @@ class BloggerHomePage(MaterializePage):
         FieldPanel('intro', classname="full"),
     ]
 
-    subpage_types = ['demo.BlogPage', 'demo.ParallaxPage']
+    subpage_types = ['demo.BlogPage', 'demo.ParallaxPage', 'demo.DynamicParallaxPage']
 
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
@@ -128,6 +128,38 @@ class ParallaxPage(MaterializePage):
             ImageChooserPanel('parallax1'),
             ImageChooserPanel('parallax2'),
             ], heading="Parallax",),
+        StreamFieldPanel('body'),
+    ]
+
+    parent_page_types = ['demo.BloggerHomePage']
+
+    @property
+    def author(self):
+        return self.get_parent().specific.author
+
+    @property
+    def user_image(self):
+        return self.get_parent().specific.user_image
+
+
+class DynamicParallaxPage(MaterializePage):
+    date = models.DateField("Post date", default=timezone.now)
+    description = RichTextField(blank=True)
+    body = StreamField([
+        *get_headings(exclude=['h1', 'h2']),
+        ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
+        ('media', MediaChooserBlock(icon='media')),
+        ('parallax', Parallax()),
+        ('collection', Collection()),
+        ('gallery', Carousel()),
+        *get_components(),
+    ])
+
+    content_panels = MaterializePage.content_panels + [
+        MultiFieldPanel([
+            FieldPanel('date'),
+            FieldPanel('description', classname='full'),
+            ], heading="Document Fields",),
         StreamFieldPanel('body'),
     ]
 

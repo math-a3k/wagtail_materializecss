@@ -2,11 +2,7 @@
 
 {% load wagtailcore_tags wagtailimages_tags wagtail_materializecss_tags %}
 
-{% block body_class %}template-parallaxpage{% endblock %}
-
-{% block before_container %}
-    {% make_parallax page.parallax1 %}
-{% endblock %}
+{% block body_class %}template-dynamicparalax{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -15,7 +11,9 @@
             <p class="caption">{{ page.author}} - {{ page.date }}</p>
 
             {% for block in page.body %}
-                {% if block.block_type == 'heading' %}
+                {% if block.block_type == 'parallax' %}
+                    {% include_block block %}
+                {% elif block.block_type == 'heading' %}
                     <h3>{% include_block block.value %}</h3>
                     <div class="divider"></div>
                 {% else %}
@@ -24,8 +22,4 @@
             {% endfor %}
         </div>
     </div>
-{% endblock %}
-
-{% block after_container %}
-    {% make_parallax page.parallax2 %}
 {% endblock %}
