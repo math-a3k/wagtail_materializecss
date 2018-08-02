@@ -9,7 +9,8 @@ from .grid import Row, Col, h1, h2, h3, h4, h5, h6, make_row_col_blocks
 from .components import LinkBlock, Badge, Button, FAB, Breadcrumb, Card, Collection, Icon, Preloader
 
 
-__all__ = ['get_headings', 'get_components', 'get_footer_blocks', 'Navbar', 'Footer', 'MaterializePage']
+__all__ = ['get_headings', 'get_components', 'get_footer_blocks',
+           'Navbar', 'Footer', 'MaterializePage', 'MaterializePageWithFooter']
 
 
 def get_headings(exclude=None):
@@ -175,8 +176,15 @@ class Footer(models.Model):
         return []
 
 
-class MaterializePage(Page, Navbar, Footer):
+class MaterializePage(Page, Navbar):
     class Meta:
         abstract = True
 
-    content_panels = Page.content_panels + Navbar.content_panels + Footer.content_panels
+    content_panels = Page.content_panels + Navbar.content_panels
+
+
+class MaterializePageWithFooter(MaterializePage, Footer):
+    class Meta:
+        abstract = True
+
+    content_panels = MaterializePage.content_panels + Footer.content_panels
