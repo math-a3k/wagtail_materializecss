@@ -95,7 +95,7 @@ class Navbar(models.Model):
     sidebar_links = StreamField([('links', LinkBlock())], blank=True,
                                 help_text="Sidebar navigation links (Uses Navbar links if blank).")
 
-    content_panels = [
+    promote_panels = [
         MultiFieldPanel([
             FieldRowPanel([FieldPanel('title_position'), FieldPanel('navbar_color')]),
             StreamFieldPanel('navbar_links'),
@@ -156,7 +156,7 @@ class Footer(models.Model):
     footer_items = StreamField(get_footer_blocks(), blank=True)
     footer_copyright = StreamField(get_footer_blocks(), blank=True)
 
-    content_panels = [
+    promote_panels = [
         MultiFieldPanel([
             FieldPanel('show_footer'),
             StreamFieldPanel('footer_items'),
@@ -180,11 +180,11 @@ class MaterializePage(Page, Navbar):
     class Meta:
         abstract = True
 
-    content_panels = Page.content_panels + Navbar.content_panels
+    promote_panels = Page.promote_panels + Navbar.promote_panels
 
 
 class MaterializePageWithFooter(MaterializePage, Footer):
     class Meta:
         abstract = True
 
-    content_panels = MaterializePage.content_panels + Footer.content_panels
+    promote_panels = MaterializePage.promote_panels + Footer.promote_panels
