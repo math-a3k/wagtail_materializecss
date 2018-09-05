@@ -13,39 +13,9 @@ from wagtail.core import blocks
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, FieldRowPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from wagtailmedia.blocks import AbstractMediaChooserBlock
-
 from wagtail_materializecss.blocks import MaterializePage, get_headings, get_components, \
     LinkBlock, Card, Collection, Carousel
 from wagtail_materializecss.javascript import Parallax
-
-
-class MediaChooserBlock(AbstractMediaChooserBlock):
-    def render_basic(self, value, context=None):
-        if not value:
-            return ''
-
-        if value.type == 'video':
-            player_code = '''
-            <div>
-                <video controls preload="none" class="responsive-video">
-                    <source src="{0}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            '''
-            return format_html(player_code, value.file.url)
-        else:
-            ext = os.path.splitext(value.file.url)[-1].lower()[1:]
-            player_code = '''
-            <div>
-                <audio controls preload="none">
-                    <source src="{0}" type="audio/{1}">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            '''
-        return format_html(player_code, value.file.url, ext)
 
 
 class BloggerHomePage(MaterializePage):
@@ -80,7 +50,6 @@ class BlogPage(MaterializePage):
     body = StreamField([
         *get_headings(exclude=['h1', 'h2']),
         ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
-        ('media', MediaChooserBlock(icon='media')),
         ('collection', Collection()),
         ('gallery', Carousel()),
         *get_components(),
@@ -113,7 +82,6 @@ class ParallaxPage(MaterializePage):
     body = StreamField([
         *get_headings(exclude=['h1', 'h2']),
         ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
-        ('media', MediaChooserBlock(icon='media')),
         ('collection', Collection()),
         ('gallery', Carousel()),
         *get_components(),
@@ -148,7 +116,6 @@ class DynamicParallaxPage(MaterializePage):
     body = StreamField([
         *get_headings(exclude=['h1', 'h2']),
         ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
-        ('media', MediaChooserBlock(icon='media')),
         ('parallax', Parallax()),
         ('collection', Collection()),
         ('gallery', Carousel()),

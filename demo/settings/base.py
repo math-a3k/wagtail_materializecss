@@ -37,8 +37,6 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-    
-    'wagtailmedia',
 
     'wagtail_materializecss',
 
